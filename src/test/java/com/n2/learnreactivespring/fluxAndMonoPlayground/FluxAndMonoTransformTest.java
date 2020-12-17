@@ -9,33 +9,30 @@ import org.junit.jupiter.api.Test;
 import reactor.core.publisher.Flux;
 import reactor.test.StepVerifier;
 
-public class FluxAndMonoTransformTest {
+class FluxAndMonoTransformTest {
     List<String> names = Arrays.asList("adam","anna","jack","jenny");
 
-    @Test
-    public void transformUsingMap() {
+    @Test void transformUsingMap() {
         final Flux<String> stringFlux = Flux.fromIterable(names)
                 .log()
-                .map(s-> s.toUpperCase())
+                .map(String::toUpperCase)
                 .log();
         StepVerifier.create(stringFlux)
                 .expectNext("ADAM","ANNA","JACK","JENNY")
                 .verifyComplete();
     }
-    @Test
-    public void transformUsingMap_Length() {
+    @Test void transformUsingMap_Length() {
         final Flux<Integer> stringFlux = Flux.fromIterable(names)
                 .log()
-                .map(s-> s.length())
+                .map(String::length)
                 .log();
         StepVerifier.create(stringFlux)
                 .expectNext(4,4,4,5)
                 .verifyComplete();
     }
-    @Test
-    public void transformUsingMap_Length_repeat() {
+    @Test void transformUsingMap_Length_repeat() {
         final Flux<Integer> stringFlux = Flux.fromIterable(names)
-                .map(s-> s.length())
+                .map(String::length)
                 .repeat(1)
                 .log();
         StepVerifier.create(stringFlux)
@@ -53,6 +50,7 @@ public class FluxAndMonoTransformTest {
                 .verifyComplete();
     }
 
+    //Use flatmap when the call inside flatMap returns a Flux
     @Test
     public void transformUsingFlatMap() {
         Flux<String> stringFlux = Flux.fromIterable(Arrays.asList("A","B","C","D","E","F"))

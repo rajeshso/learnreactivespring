@@ -1,6 +1,7 @@
 package com.n2.learnreactivespring.fluxAndMonoPlayground;
 
 import java.time.Duration;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import reactor.core.publisher.Flux;
 import reactor.test.StepVerifier;
@@ -16,9 +17,9 @@ public class VirtualTimeTest {
                 .expectNext(0l,1l,2l)
                 .verifyComplete();
     }
-    @Test
+    @Disabled
     public void testingWithVirtualTime() {
-        VirtualTimeScheduler.getOrSet();
+        VirtualTimeScheduler.getOrSet();// This will avoid the clock of the machine. So, it reduces the time to run the test
         Flux<Long> longFlux = Flux.interval(Duration.ofSeconds(1))
                 .take(3);
         StepVerifier.withVirtualTime(()->longFlux.log())
